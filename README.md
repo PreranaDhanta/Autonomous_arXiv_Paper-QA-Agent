@@ -253,6 +253,18 @@ agent › The model uses 8 parallel attention heads (h = 8) [chunk 0], so it can
         single head.
 ```
 
+## Tests
+
+Fast, offline unit tests cover the deterministic logic (no network or LLM keys
+required): arXiv ID extraction, section-aware chunking, tolerant JSON parsing,
+briefing normalisation (incl. the "limitations never empty" rule), PDF text
+helpers, graph routing, and query understanding (LLM stubbed).
+
+```bash
+pip install -r requirements-dev.txt
+pytest -q
+```
+
 ## Configuration knobs
 
 All tunables live in `.env` (see [.env.example](.env.example)): chunk size and
