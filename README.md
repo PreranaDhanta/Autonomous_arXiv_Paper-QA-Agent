@@ -76,6 +76,58 @@ collection — no re-parsing needed.
 | Config | [src/config.py](src/config.py) |
 | LLM abstraction (Groq/Gemini/Ollama) | [src/llm.py](src/llm.py) |
 
+## Quick start (TL;DR)
+
+```bash
+# 1. Clone
+git clone https://github.com/PreranaDhanta/Autonomous_arXiv_Paper-QA-Agent.git
+cd Autonomous_arXiv_Paper-QA-Agent
+
+# 2. Set up (creates .venv, installs deps, seeds .env from the template)
+./setup.sh
+
+# 3. Add ONE free LLM key — edit .env and set, e.g.:
+#      LLM_PROVIDER=groq
+#      GROQ_API_KEY=gsk_your_key_here     # free: https://console.groq.com/keys
+
+# 4. Activate the environment
+source .venv/bin/activate
+
+# 5. Run it
+python main.py digest 1706.03762
+```
+
+That's it. `digest` fetches the paper, prints an executive briefing, and drops
+you into an interactive QA chat (type a question, press Enter, `exit` to quit).
+
+### Everyday commands
+
+```bash
+source .venv/bin/activate     # activate the venv first (once per terminal)
+
+# Digest a specific paper by ID or URL, then interactive QA
+python main.py digest 1706.03762
+python main.py digest https://arxiv.org/abs/1706.03762
+
+# Digest by topic — the agent finds and picks the most relevant paper, then QA
+python main.py digest "retrieval augmented generation for open domain question answering"
+
+# Briefing only, skip the QA chat
+python main.py digest 2009.08553 --no-qa
+
+# Resume QA on a paper you already digested (no re-parsing, reuses saved state)
+python main.py qa 2009.08553
+
+# List saved sessions
+python main.py list
+```
+
+One-liner without activating the venv first:
+
+```bash
+.venv/bin/python main.py digest 1706.03762
+```
+
 ## Setup
 
 One command creates the virtual environment, installs dependencies, and seeds
@@ -108,28 +160,6 @@ embeddings need no key — only the summary and QA steps use the LLM):
 > ([src/__init__.py](src/__init__.py)) so Python uses the OS-native trust store
 > (macOS Keychain / Windows / Linux). This lets HTTPS work behind corporate
 > TLS-inspection proxies whose root CA `certifi` does not ship.
-
-## Usage
-
-```bash
-source .venv/bin/activate
-
-# Digest a specific paper by ID or URL, then drop into interactive QA
-python main.py digest 1706.03762
-python main.py digest https://arxiv.org/abs/1706.03762
-
-# Digest by topic (the agent picks the most relevant paper)
-python main.py digest "recent work on KV-cache compression for LLMs"
-
-# Briefing only, skip the QA loop
-python main.py digest 1706.03762 --no-qa
-
-# Resume QA on a previously digested paper (no re-parsing)
-python main.py qa 1706.03762
-
-# List saved sessions
-python main.py list
-```
 
 Briefings are also written to `data/output/briefings/<id>.md`.
 
