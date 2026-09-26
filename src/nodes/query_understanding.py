@@ -33,9 +33,12 @@ def query_understanding(state: AgentState) -> AgentState:
     query = raw
     try:
         refined = get_llm().chat(_REFINE_SYSTEM, raw, temperature=0.0, max_tokens=60)
-        refined = refined.strip().strip('"').splitlines()[0]
-        if refined:
-            query = refined
+        lines = refined.strip().strip('"').splitlines()
+        # Use the first non-empty line; if the model returned nothing usable,
+        # fall back to the raw query rather than crashing.
+        first = next((ln.strip() for ln in lines if ln.strip()), "")
+        if first:
+            query = first
     except LLMError:
         pass  # keep raw query
 
