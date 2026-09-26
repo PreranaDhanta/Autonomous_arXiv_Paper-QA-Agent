@@ -1,0 +1,24 @@
+# Core orchestration (explicit state graph: nodes + edges + shared state)
+langgraph>=0.2.0
+
+# arXiv access (official API / Atom feed wrapper — no scraping)
+arxiv>=2.1.0
+
+# PDF parsing
+pymupdf>=1.24.0
+
+# Local vector DB + built-in (local, free) embeddings
+chromadb>=0.5.0
+
+# HTTP (LLM providers, PDF download fallback)
+requests>=2.31.0
+
+# Config
+python-dotenv>=1.0.0
+
+# Use the OS-native TLS trust store (macOS Keychain / Windows / Linux) so HTTPS
+# works behind corporate TLS-inspection proxies whose root CA certifi lacks.
+truststore>=0.9.0
+
+# Nicer CLI output (terminal formatting only — not a UI)
+rich>=13.0.0

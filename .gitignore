@@ -1,0 +1,18 @@
+# Env / secrets
+.env
+
+# Data (PDFs, vector DB, briefings, sessions)
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
